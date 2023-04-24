@@ -1,0 +1,89 @@
+:root {
+  font-size: 10px;
+  margin: 0px;
+  padding: 0px;
+  --border-color: rgb(220, 220, 220);
+}
+
+body {
+  min-width: 100vw;
+  min-height: 100vh;
+  margin: 0px;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.container {
+  min-width: 100vw;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 16rem 10rem 1fr 6rem 2rem;
+  justify-items: center;
+}
+
+.container h1 {
+  font-size: 7rem;
+  padding: 0;
+}
+
+.game-board {
+  width: 41rem;
+  height: 41rem;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.game-board div {
+  width: 13rem;
+  height: 13rem;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 6rem;
+}
+
+.header > :nth-child(1) {
+  font-size: 1.3rem;
+  font-style: oblique;
+  font-weight: 100;
+}
+
+.buttons-marker button {
+  width: 18rem;
+  border-radius: 2rem;
+}
+
+.header {
+  width: 60rem;
+  height: 10rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 2rem;
+}
+
+.buttons-marker {
+  display: flex;
+  gap: 6rem;
+}
+
+.button-restart button {
+  border-radius: 2rem;
+  width: 20rem;
+  height: 3rem;
+}
+
+.game-board > :nth-child(-n + 6) {
+  border-bottom: 1rem solid var(--border-color);
+}
+
+.game-board > :nth-child(3n + 1) {
+  border-right: 1rem solid var(--border-color);
+}
+
+.game-board > :nth-child(3n) {
+  border-left: 1rem solid var(--border-color);
+}

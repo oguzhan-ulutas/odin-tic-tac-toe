@@ -28,6 +28,8 @@ const gameBoard = (() => {
     const restartButton = document.querySelector(".button-restart > button");
     restartButton.addEventListener("click", () => {
       this.gameBoardArray = [];
+      this.playerMarker = "";
+      this.computerMarker = "";
       clearDisplay();
     });
   }
@@ -42,13 +44,25 @@ const gameBoard = (() => {
       ".buttons-marker > button:last-child"
     );
     markerX.addEventListener("click", () => {
-      playerMarker = "X";
-      computerMarker = "O";
+      this.playerMarker = "X";
+      this.computerMarker = "O";
+    });
+    markerO.addEventListener("click", () => {
+      this.playerMarker = "O";
+      this.computerMarker = "X";
     });
   }
 
-  return { fillGameBoard, restart, gameBoardArray };
+  return {
+    fillGameBoard,
+    restart,
+    gameBoardArray,
+    playerMarker,
+    computerMarker,
+    markerSelect,
+  };
 })();
 
 gameBoard.fillGameBoard();
 gameBoard.restart();
+gameBoard.markerSelect();

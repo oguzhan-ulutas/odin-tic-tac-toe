@@ -6,33 +6,32 @@ const gameBoard = (() => {
   const markerO = document.querySelector(".buttons-marker > button:last-child");
   let gameBoardArray = ["X", "O"];
 
-  //Filling the game board with gameBoardArray itims.
+  //Filling the game board with gameBoardArray items.
   function fillGameBoard() {
-    for (let index in gameBoardArray) {
-      const div = document.querySelector(`.div${index}`);
-      div.textContent = gameBoardArray[index];
+    if (gameBoardArray === []) {
+      makerBoxDiv.forEach((box) => {
+        box.textContent = "";
+      });
+    } else {
+      for (let index in gameBoardArray) {
+        const div = document.querySelector(`.div${index}`);
+        div.textContent = gameBoard.gameBoardArray[index];
+      }
     }
   }
 
-  // makerBoxDiv.forEach((box) => {
-  //   box.addEventListener("click", () => {
-  //     index = Number(box.classList.value);
-  //     if (!gameBoardArray[index] == "X" || !gameBoardArray[index] == "O") {
-  //       gameBoardArray[index] = box.textContent;
-  //     }
-  //   });
-  // });
+  // Add restart button functionality
+  const restartButton = document.querySelector(".button-restart > button");
+  restartButton.addEventListener("click", () => {
+    gameBoard.gameBoardArray = [];
+    fillGameBoard();
+  });
 
-  // function Restart() {
-  //   const restartButtun = document.querySelector(".restart-button > button");
-  // }
   return { makerBoxDiv, gameBoardArray, fillGameBoard };
 })();
 
 gameBoard.fillGameBoard();
 
-// let arr = ["a", "b"];
-
-// for (const i of arr) {
-//   console.log(i);
-// }
+// gameBoard.makerBoxDiv.forEach((box) => {
+//   console.log(box.textContent);
+// });

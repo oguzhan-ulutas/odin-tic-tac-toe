@@ -2,6 +2,7 @@ const gameBoard = (() => {
   let gameBoardArray = ["X", "O"];
   let playerMarker = "";
   let computerMarker = "";
+  const makerBoxDiv = document.querySelectorAll(".game-board div");
 
   //Filling the game board with gameBoardArray items.
   function fillGameBoard() {
@@ -18,7 +19,6 @@ const gameBoard = (() => {
   // Add restart button functionality
 
   function clearDisplay() {
-    const makerBoxDiv = document.querySelectorAll(".game-board div");
     makerBoxDiv.forEach((box) => {
       box.textContent = "";
     });
@@ -27,15 +27,13 @@ const gameBoard = (() => {
   function restart() {
     const restartButton = document.querySelector(".button-restart > button");
     restartButton.addEventListener("click", () => {
-      this.gameBoardArray = [];
+      clearDisplay();
       this.playerMarker = "";
       this.computerMarker = "";
-      clearDisplay();
     });
   }
 
   // Choosing marker
-
   function markerSelect() {
     const markerX = document.querySelector(
       ".buttons-marker > button:first-child"
@@ -46,10 +44,28 @@ const gameBoard = (() => {
     markerX.addEventListener("click", () => {
       this.playerMarker = "X";
       this.computerMarker = "O";
+      this.gameBoardArray = [];
+      clearDisplay();
     });
     markerO.addEventListener("click", () => {
       this.playerMarker = "O";
       this.computerMarker = "X";
+      this.gameBoardArray = [];
+      clearDisplay();
+    });
+  }
+
+  // Filling gameBoardArray with selection of the player and  the computer
+  const getRandomInt = () => Math.floor(Math.random() * 10);
+
+  function playerSelection() {
+    makerBoxDiv.forEach((box) => {
+      box.addEventListener("click", (e) => {
+        let index = Number(e.target.classList.value[3]);
+        if (this.gameBoardArray[index] === undefined) {
+          this.gameBoardArray[index] = this.playerMarker;
+        }
+      });
     });
   }
 
@@ -60,9 +76,11 @@ const gameBoard = (() => {
     playerMarker,
     computerMarker,
     markerSelect,
+    playerSelection,
   };
 })();
 
 gameBoard.fillGameBoard();
 gameBoard.restart();
 gameBoard.markerSelect();
+gameBoard.playerSelection();

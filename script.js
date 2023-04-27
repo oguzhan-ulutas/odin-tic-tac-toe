@@ -1,7 +1,7 @@
 const gameBoard = (() => {
-  let gameBoardArray = ["X", "O"];
-  let playerMarker = "";
-  let computerMarker = "";
+  let gameBoardArray = ["X"];
+  let playerMarker = "X";
+  let computerMarker = "O";
   const makerBoxDiv = document.querySelectorAll(".game-board div");
 
   //Filling the game board with gameBoardArray items.
@@ -11,10 +11,6 @@ const gameBoard = (() => {
       div.textContent = gameBoardArray[index];
     }
   }
-
-  // function controlFunction() {
-  //   console.log("working");
-  // }
 
   // Add restart button functionality
 
@@ -28,8 +24,9 @@ const gameBoard = (() => {
     const restartButton = document.querySelector(".button-restart > button");
     restartButton.addEventListener("click", () => {
       clearDisplay();
-      this.playerMarker = "";
-      this.computerMarker = "";
+      this.playerMarker = "X";
+      this.computerMarker = "O";
+      this.gameBoardArray = [];
     });
   }
 
@@ -56,17 +53,32 @@ const gameBoard = (() => {
   }
 
   // Filling gameBoardArray with selection of the player and  the computer
-  const getRandomInt = () => Math.floor(Math.random() * 10);
-
+  // And filling the gameboard with markers
   function playerSelection() {
     makerBoxDiv.forEach((box) => {
       box.addEventListener("click", (e) => {
         let index = Number(e.target.classList.value[3]);
         if (this.gameBoardArray[index] === undefined) {
           this.gameBoardArray[index] = this.playerMarker;
+          box.textContent = this.playerMarker;
         }
       });
     });
+  }
+
+  function _getRandomInt() {
+    return Math.floor(Math.random() * 9);
+  }
+
+  function computerSelection() {
+    let randomInt = _getRandomInt();
+    const div = document.querySelector(`.div${randomInt}`);
+    console.log(randomInt);
+
+    if (gameBoardArray[randomInt] === undefined) {
+      this.gameBoardArray[randomInt] = this.computerMarker;
+      div.textContent = computerMarker;
+    }
   }
 
   return {
@@ -77,6 +89,7 @@ const gameBoard = (() => {
     computerMarker,
     markerSelect,
     playerSelection,
+    computerSelection,
   };
 })();
 
@@ -84,3 +97,4 @@ gameBoard.fillGameBoard();
 gameBoard.restart();
 gameBoard.markerSelect();
 gameBoard.playerSelection();
+gameBoard.computerSelection();

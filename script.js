@@ -1,5 +1,5 @@
 const gameBoard = (() => {
-  let gameBoardArray = ["X"];
+  let gameBoardArray = [];
   let playerMarker = "X";
   let computerMarker = "O";
   const makerBoxDiv = document.querySelectorAll(".game-board div");
@@ -77,7 +77,65 @@ const gameBoard = (() => {
 
     if (gameBoardArray[randomInt] === undefined) {
       this.gameBoardArray[randomInt] = this.computerMarker;
-      div.textContent = computerMarker;
+      div.textContent = this.computerMarker;
+    }
+  }
+
+  function gameScore() {
+    let comparisonPlayerMarker = Array(3).fill(playerMarker).join();
+    let comparisonComputerMarker = Array(3).fill(computerMarker).join();
+
+    if (
+      // Column control
+      gameBoardArray.slice(0, 3).join() === comparisonPlayerMarker ||
+      gameBoardArray.slice(3, 6).join() === comparisonPlayerMarker ||
+      gameBoardArray.slice(6).join() === comparisonPlayerMarker ||
+      // Row control
+      gameBoardArray.filter((v, i) => i % 3 === 0).join() ===
+        comparisonPlayerMarker ||
+      gameBoardArray.filter((v, i) => i % 3 === 1).join() ===
+        comparisonPlayerMarker ||
+      gameBoardArray.filter((v, i) => i % 3 === 2).join() ===
+        comparisonPlayerMarker ||
+      // Diagonal control
+      gameBoardArray.filter((v, i) => i % 4 === 0).join() ===
+        comparisonPlayerMarker ||
+      [gameBoardArray[2], gameBoardArray[4], gameBoardArray[6]].join() ===
+        comparisonPlayerMarker
+    ) {
+      alert("You win!!");
+    } else if (
+      // Column control
+      gameBoardArray.slice(0, 3).join() === comparisonComputerMarker ||
+      gameBoardArray.slice(3, 6).join() === comparisonComputerMarker ||
+      gameBoardArray.slice(6).join() === comparisonComputerMarker ||
+      // Row control
+      gameBoardArray.filter((v, i) => i % 3 === 0).join() ===
+        comparisonComputerMarker ||
+      gameBoardArray.filter((v, i) => i % 3 === 1).join() ===
+        comparisonComputerMarker ||
+      gameBoardArray.filter((v, i) => i % 3 === 2).join() ===
+        comparisonComputerMarker ||
+      // Diagonal control
+      gameBoardArray.filter((v, i) => i % 4 === 0).join() ===
+        comparisonComputerMarker ||
+      [gameBoardArray[2], gameBoardArray[4], gameBoardArray[6]].join() ===
+        comparisonComputerMarker
+    ) {
+      alert("AI wins!!!");
+    } else if (gameBoardArray.length === 9) {
+      alert("It is a tie!!!");
+    }
+  }
+
+  function gameFlow() {
+    restart();
+    markerSelect();
+
+    if (playerMarker === "X") {
+      playerSelection();
+    } else {
+      computerSelection();
     }
   }
 
@@ -90,11 +148,8 @@ const gameBoard = (() => {
     markerSelect,
     playerSelection,
     computerSelection,
+    gameFlow,
   };
 })();
 
-gameBoard.fillGameBoard();
-gameBoard.restart();
-gameBoard.markerSelect();
-gameBoard.playerSelection();
-gameBoard.computerSelection();
+gameBoard.gameFlow();

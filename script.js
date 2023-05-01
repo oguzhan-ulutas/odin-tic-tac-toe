@@ -60,6 +60,8 @@ const gameBoard = (() => {
             gameBoard.gameBoardArray.length !== 9
           ) {
             computerSelection();
+          } else {
+            setTimeout(gameScore, 100);
           }
         }
       });
@@ -72,21 +74,22 @@ const gameBoard = (() => {
 
   const computerSelection = () => {
     let randomInt = _getRandomInt();
-    console.log(randomInt);
 
     while (gameBoard.gameBoardArray[randomInt] !== undefined) {
       randomInt = _getRandomInt();
     }
 
-    console.log(randomInt);
-    gameBoard.gameBoardArray[randomInt] = computerMarker;
+    gameBoard.gameBoardArray[randomInt] = gameBoard.computerMarker;
     const div = document.querySelector(`.div${randomInt}`);
     div.textContent = gameBoard.computerMarker;
+    setTimeout(gameScore, 100);
   };
 
   const gameScore = () => {
-    let comparisonPlayerMarker = Array(3).fill(playerMarker).join();
-    let comparisonComputerMarker = Array(3).fill(computerMarker).join();
+    let comparisonPlayerMarker = Array(3).fill(gameBoard.playerMarker).join();
+    let comparisonComputerMarker = Array(3)
+      .fill(gameBoard.computerMarker)
+      .join();
 
     if (
       // Column control
@@ -110,6 +113,10 @@ const gameBoard = (() => {
       ].join() === comparisonPlayerMarker
     ) {
       alert("You win!!");
+      clearDisplay();
+      gameBoard.playerMarker = "X";
+      gameBoard.computerMarker = "O";
+      gameBoard.gameBoardArray = [];
     } else if (
       // Column control
       gameBoard.gameBoardArray.slice(0, 3).join() ===
@@ -134,8 +141,19 @@ const gameBoard = (() => {
       ].join() === comparisonComputerMarker
     ) {
       alert("AI wins!!!");
-    } else if (gameBoard.gameBoardArray.length === 9) {
+      clearDisplay();
+      gameBoard.playerMarker = "X";
+      gameBoard.computerMarker = "O";
+      gameBoard.gameBoardArray = [];
+    } else if (
+      gameBoard.gameBoardArray.length === 9 &&
+      !gameBoard.gameBoardArray.includes(undefined)
+    ) {
       alert("It is a tie!!!");
+      clearDisplay();
+      gameBoard.playerMarker = "X";
+      gameBoard.computerMarker = "O";
+      gameBoard.gameBoardArray = [];
     }
   };
 

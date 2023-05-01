@@ -4,34 +4,23 @@ const gameBoard = (() => {
   let computerMarker = "O";
   const makerBoxDiv = document.querySelectorAll(".game-board div");
 
-  //Filling the game board with gameBoardArray items.
-  function fillGameBoard() {
-    for (let index in gameBoardArray) {
-      const div = document.querySelector(`.div${index}`);
-      div.textContent = gameBoardArray[index];
-    }
-  }
-
   // Add restart button functionality
-
-  function clearDisplay() {
+  const clearDisplay = () => {
     makerBoxDiv.forEach((box) => {
       box.textContent = "";
     });
-  }
+  };
 
-  function restart() {
+  const restart = () => {
     const restartButton = document.querySelector(".button-restart > button");
     restartButton.addEventListener("click", () => {
+      gameBoardArray = [];
       clearDisplay();
-      this.playerMarker = "X";
-      this.computerMarker = "O";
-      this.gameBoardArray = [];
     });
-  }
+  };
 
   // Choosing marker
-  function markerSelect() {
+  const markerSelect = () => {
     const markerX = document.querySelector(
       ".buttons-marker > button:first-child"
     );
@@ -39,49 +28,61 @@ const gameBoard = (() => {
       ".buttons-marker > button:last-child"
     );
     markerX.addEventListener("click", () => {
-      this.playerMarker = "X";
-      this.computerMarker = "O";
-      this.gameBoardArray = [];
+      playerMarker = "X";
+      computerMarker = "O";
+      gameBoardArray = [];
       clearDisplay();
+      playerSelection();
     });
     markerO.addEventListener("click", () => {
-      this.playerMarker = "O";
-      this.computerMarker = "X";
-      this.gameBoardArray = [];
+      playerMarker = "O";
+      computerMarker = "X";
+      gameBoardArray = [];
       clearDisplay();
+      computerSelection();
     });
-  }
+  };
 
   // Filling gameBoardArray with selection of the player and  the computer
   // And filling the gameboard with markers
-  function playerSelection() {
+  const playerSelection = () => {
     makerBoxDiv.forEach((box) => {
       box.addEventListener("click", (e) => {
         let index = Number(e.target.classList.value[3]);
-        if (this.gameBoardArray[index] === undefined) {
-          this.gameBoardArray[index] = this.playerMarker;
-          box.textContent = this.playerMarker;
+
+        if (gameBoardArray[index] === undefined) {
+          gameBoardArray[index] = playerMarker;
+          box.textContent = playerMarker;
+          if (
+            gameBoardArray.includes(undefined) ||
+            gameBoardArray.length !== 9
+          ) {
+            computerSelection();
+          }
         }
       });
     });
-  }
+  };
 
-  function _getRandomInt() {
+  const _getRandomInt = () => {
     return Math.floor(Math.random() * 9);
-  }
+  };
 
-  function computerSelection() {
+  const computerSelection = () => {
     let randomInt = _getRandomInt();
-    const div = document.querySelector(`.div${randomInt}`);
     console.log(randomInt);
 
-    if (gameBoardArray[randomInt] === undefined) {
-      this.gameBoardArray[randomInt] = this.computerMarker;
-      div.textContent = this.computerMarker;
+    while (gameBoardArray[randomInt] !== undefined) {
+      randomInt = _getRandomInt();
     }
-  }
 
-  function gameScore() {
+    console.log(randomInt);
+    gameBoardArray[randomInt] = computerMarker;
+    const div = document.querySelector(`.div${randomInt}`);
+    div.textContent = computerMarker;
+  };
+
+  const gameScore = () => {
     let comparisonPlayerMarker = Array(3).fill(playerMarker).join();
     let comparisonComputerMarker = Array(3).fill(computerMarker).join();
 
@@ -126,21 +127,21 @@ const gameBoard = (() => {
     } else if (gameBoardArray.length === 9) {
       alert("It is a tie!!!");
     }
-  }
+  };
 
-  function gameFlow() {
+  const gameFlow = () => {
     restart();
     markerSelect();
+    playerSelection();
 
-    if (playerMarker === "X") {
-      playerSelection();
-    } else {
-      computerSelection();
-    }
-  }
+    // if (playerMarker === "X") {
+    //   this.playerSelection();
+    // } else {
+    //   this.computerSelection();
+    // }
+  };
 
   return {
-    fillGameBoard,
     restart,
     gameBoardArray,
     playerMarker,
@@ -153,3 +154,5 @@ const gameBoard = (() => {
 })();
 
 gameBoard.gameFlow();
+
+// gameBoard.markerSelect();

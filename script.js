@@ -14,7 +14,9 @@ const gameBoard = (() => {
   const restart = () => {
     const restartButton = document.querySelector(".button-restart > button");
     restartButton.addEventListener("click", () => {
-      gameBoardArray = [];
+      gameBoard.gameBoardArray = [];
+      gameBoard.playerMarker = "X";
+      gameBoard.computerMarker = "O";
       clearDisplay();
     });
   };
@@ -28,16 +30,16 @@ const gameBoard = (() => {
       ".buttons-marker > button:last-child"
     );
     markerX.addEventListener("click", () => {
-      playerMarker = "X";
-      computerMarker = "O";
-      gameBoardArray = [];
+      gameBoard.playerMarker = "X";
+      gameBoard.computerMarker = "O";
+      gameBoard.gameBoardArray = [];
       clearDisplay();
       playerSelection();
     });
     markerO.addEventListener("click", () => {
-      playerMarker = "O";
-      computerMarker = "X";
-      gameBoardArray = [];
+      gameBoard.playerMarker = "O";
+      gameBoard.computerMarker = "X";
+      gameBoard.gameBoardArray = [];
       clearDisplay();
       computerSelection();
     });
@@ -50,12 +52,12 @@ const gameBoard = (() => {
       box.addEventListener("click", (e) => {
         let index = Number(e.target.classList.value[3]);
 
-        if (gameBoardArray[index] === undefined) {
-          gameBoardArray[index] = playerMarker;
-          box.textContent = playerMarker;
+        if (gameBoard.gameBoardArray[index] === undefined) {
+          gameBoard.gameBoardArray[index] = gameBoard.playerMarker;
+          box.textContent = gameBoard.playerMarker;
           if (
-            gameBoardArray.includes(undefined) ||
-            gameBoardArray.length !== 9
+            gameBoard.gameBoardArray.includes(undefined) ||
+            gameBoard.gameBoardArray.length !== 9
           ) {
             computerSelection();
           }
@@ -72,14 +74,14 @@ const gameBoard = (() => {
     let randomInt = _getRandomInt();
     console.log(randomInt);
 
-    while (gameBoardArray[randomInt] !== undefined) {
+    while (gameBoard.gameBoardArray[randomInt] !== undefined) {
       randomInt = _getRandomInt();
     }
 
     console.log(randomInt);
-    gameBoardArray[randomInt] = computerMarker;
+    gameBoard.gameBoardArray[randomInt] = computerMarker;
     const div = document.querySelector(`.div${randomInt}`);
-    div.textContent = computerMarker;
+    div.textContent = gameBoard.computerMarker;
   };
 
   const gameScore = () => {
@@ -88,43 +90,51 @@ const gameBoard = (() => {
 
     if (
       // Column control
-      gameBoardArray.slice(0, 3).join() === comparisonPlayerMarker ||
-      gameBoardArray.slice(3, 6).join() === comparisonPlayerMarker ||
-      gameBoardArray.slice(6).join() === comparisonPlayerMarker ||
+      gameBoard.gameBoardArray.slice(0, 3).join() === comparisonPlayerMarker ||
+      gameBoard.gameBoardArray.slice(3, 6).join() === comparisonPlayerMarker ||
+      gameBoard.gameBoardArray.slice(6).join() === comparisonPlayerMarker ||
       // Row control
-      gameBoardArray.filter((v, i) => i % 3 === 0).join() ===
+      gameBoard.gameBoardArray.filter((v, i) => i % 3 === 0).join() ===
         comparisonPlayerMarker ||
-      gameBoardArray.filter((v, i) => i % 3 === 1).join() ===
+      gameBoard.gameBoardArray.filter((v, i) => i % 3 === 1).join() ===
         comparisonPlayerMarker ||
-      gameBoardArray.filter((v, i) => i % 3 === 2).join() ===
+      gameBoard.gameBoardArray.filter((v, i) => i % 3 === 2).join() ===
         comparisonPlayerMarker ||
       // Diagonal control
-      gameBoardArray.filter((v, i) => i % 4 === 0).join() ===
+      gameBoard.gameBoardArray.filter((v, i) => i % 4 === 0).join() ===
         comparisonPlayerMarker ||
-      [gameBoardArray[2], gameBoardArray[4], gameBoardArray[6]].join() ===
-        comparisonPlayerMarker
+      [
+        gameBoard.gameBoardArray[2],
+        gameBoard.gameBoardArray[4],
+        gameBoard.gameBoardArray[6],
+      ].join() === comparisonPlayerMarker
     ) {
       alert("You win!!");
     } else if (
       // Column control
-      gameBoardArray.slice(0, 3).join() === comparisonComputerMarker ||
-      gameBoardArray.slice(3, 6).join() === comparisonComputerMarker ||
-      gameBoardArray.slice(6).join() === comparisonComputerMarker ||
+      gameBoard.gameBoardArray.slice(0, 3).join() ===
+        comparisonComputerMarker ||
+      gameBoard.gameBoardArray.slice(3, 6).join() ===
+        comparisonComputerMarker ||
+      gameBoard.gameBoardArray.slice(6).join() === comparisonComputerMarker ||
       // Row control
-      gameBoardArray.filter((v, i) => i % 3 === 0).join() ===
+      gameBoard.gameBoardArray.filter((v, i) => i % 3 === 0).join() ===
         comparisonComputerMarker ||
-      gameBoardArray.filter((v, i) => i % 3 === 1).join() ===
+      gameBoard.gameBoardArray.filter((v, i) => i % 3 === 1).join() ===
         comparisonComputerMarker ||
-      gameBoardArray.filter((v, i) => i % 3 === 2).join() ===
+      gameBoard.gameBoardArray.filter((v, i) => i % 3 === 2).join() ===
         comparisonComputerMarker ||
       // Diagonal control
-      gameBoardArray.filter((v, i) => i % 4 === 0).join() ===
+      gameBoard.gameBoardArray.filter((v, i) => i % 4 === 0).join() ===
         comparisonComputerMarker ||
-      [gameBoardArray[2], gameBoardArray[4], gameBoardArray[6]].join() ===
-        comparisonComputerMarker
+      [
+        gameBoard.gameBoardArray[2],
+        gameBoard.gameBoardArray[4],
+        gameBoard.gameBoardArray[6],
+      ].join() === comparisonComputerMarker
     ) {
       alert("AI wins!!!");
-    } else if (gameBoardArray.length === 9) {
+    } else if (gameBoard.gameBoardArray.length === 9) {
       alert("It is a tie!!!");
     }
   };
@@ -133,12 +143,6 @@ const gameBoard = (() => {
     restart();
     markerSelect();
     playerSelection();
-
-    // if (playerMarker === "X") {
-    //   this.playerSelection();
-    // } else {
-    //   this.computerSelection();
-    // }
   };
 
   return {
@@ -154,5 +158,3 @@ const gameBoard = (() => {
 })();
 
 gameBoard.gameFlow();
-
-// gameBoard.markerSelect();

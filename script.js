@@ -20,9 +20,7 @@ const gameBoard = (() => {
   const _restart = () => {
     const restartButton = document.querySelector(".button-restart > button");
     restartButton.addEventListener("click", () => {
-      gameBoard._gameBoardArray = [];
-      gameBoard._playerMarker = "X";
-      gameBoard._computerMarker = "O";
+      _setMarkers();
       _clearDisplay();
     });
   };
@@ -36,9 +34,7 @@ const gameBoard = (() => {
       ".buttons-marker > button:last-child"
     );
     markerX.addEventListener("click", () => {
-      gameBoard._playerMarker = "X";
-      gameBoard._computerMarker = "O";
-      gameBoard._gameBoardArray = [];
+      _setMarkers();
       _clearDisplay();
       _playerSelection();
     });
@@ -122,9 +118,7 @@ const gameBoard = (() => {
     ) {
       alert("You win!!");
       _clearDisplay();
-      gameBoard._playerMarker = "X";
-      gameBoard._computerMarker = "O";
-      gameBoard._gameBoardArray = [];
+      _setMarkers();
     } else if (
       // Column control
       gameBoard._gameBoardArray.slice(0, 3).join() ===
@@ -150,18 +144,14 @@ const gameBoard = (() => {
     ) {
       alert("AI wins!!!");
       _clearDisplay();
-      gameBoard._playerMarker = "X";
-      gameBoard._computerMarker = "O";
-      gameBoard._gameBoardArray = [];
+      _setMarkers();
     } else if (
       gameBoard._gameBoardArray.length === 9 &&
       !gameBoard._gameBoardArray.includes(undefined)
     ) {
       alert("It is a tie!!!");
       _clearDisplay();
-      gameBoard._playerMarker = "X";
-      gameBoard._computerMarker = "O";
-      gameBoard._gameBoardArray = [];
+      _setMarkers();
     }
   };
 
